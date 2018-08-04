@@ -37,10 +37,13 @@ companion object {
                 requestCode)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun canDrawOverlays(activity: Activity): Boolean {
 
-        return Settings.canDrawOverlays(activity)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(activity)
+        } else {
+            true
+        }
         //todo android 26 has a bug which is fixed by a security patch which needs to be downloaded
         //todo to update the OS. figure out a workaround to this bug. right now the correct value
         //todo of this on android 26 can only be retrieved if the app is restarted
