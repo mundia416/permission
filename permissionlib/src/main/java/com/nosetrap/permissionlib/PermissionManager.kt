@@ -1,17 +1,11 @@
-package com.dunbartechnology.habitap.models
+package com.nosetrap.permissionlib
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.PixelFormat
-import android.graphics.PixelFormat.TRANSPARENT
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.support.annotation.RequiresApi
-import android.view.View
-import android.view.WindowManager
-import android.view.WindowManager.LayoutParams.*
 
 
 /**
