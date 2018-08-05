@@ -1,11 +1,13 @@
 package com.nosetrap.permissionlib
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.support.annotation.RequiresApi
+import android.text.TextUtils
 
 
 /**
@@ -19,17 +21,73 @@ class PermissionManager(private val activity: Activity) {
         return canDrawOverlays(activity)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     fun requestDrawOverlays(requestCode: Int){
         requestDrawOverlays(activity,requestCode)
     }
 
+    fun requestAccServicePermission(requestCode: Int){
+        requestAccServicePermission(activity, requestCode)
+    }
+
+    fun isAccServicePermissionGranted(accClassCanonicalName: String): Boolean{
+        return isAccServicePermissionGranted(activity,accClassCanonicalName)
+    }
+
+
 companion object {
 
-    fun requestDrawOverlays(activity: Activity,requestCode: Int){
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun requestDrawOverlays(activity: Activity, requestCode: Int){
         activity.startActivityForResult( Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:" + activity?.packageName)),
+                Uri.parse("package:" + activity.packageName)),
                 requestCode)
     }
+
+    /**
+     * request accessiblity service permission
+     */
+    fun requestAccServicePermission(activity: Activity,requestCode: Int){
+        val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+        activity.startActivityForResult(intent, requestCode)
+    }
+
+    /**
+     * is accessiblity service Permission granted
+     * @param accClassCanonicalName canonical name of the accessiblity class retrieved with AccessiblityClass::class.java.canonicalName
+     */
+    fun isAccServicePermissionGranted(context:Context, accClassCanonicalName: String): Boolean{
+                val accServiceId = context.packageName+"/"+ accClassCanonicalName
+
+                var enabled = 0
+                try{
+                    enabled = Settings.Secure.getInt(context.applicationContext.contentResolver,Settings.Secure.ACCESSIBILITY_ENABLED)
+
+                }catch (e: Settings.SettingNotFoundException){
+
+                }
+
+                val colonSplitter: TextUtils.SimpleStringSplitter = TextUtils.SimpleStringSplitter(':')
+
+                if(enabled == 1){
+                    val settingsValue = Settings.Secure.getString(context.applicationContext.contentResolver,
+                            Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
+
+                    if(settingsValue != null){
+                        colonSplitter.setString(settingsValue)
+
+                        while(colonSplitter.hasNext()){
+                            val accService = colonSplitter.next()
+
+                            if(accService == accServiceId){
+                                return true
+                            }
+                        }
+                    }
+                }
+
+                return false
+            }
 
     fun canDrawOverlays(activity: Activity): Boolean {
 
