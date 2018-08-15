@@ -16,6 +16,7 @@ import android.text.TextUtils
  */
 class PermissionManager(private val activity: Activity) {
 
+
     @RequiresApi(Build.VERSION_CODES.M)
     fun canDrawOverlays(): Boolean{
         return canDrawOverlays(activity)
@@ -50,6 +51,7 @@ companion object {
     fun requestAccServicePermission(activity: Activity,requestCode: Int){
         val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
         activity.startActivityForResult(intent, requestCode)
+
     }
 
     /**
