@@ -3,6 +3,7 @@ package com.nosetrap.permissionlib
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -16,8 +17,6 @@ import android.text.TextUtils
  */
 class PermissionManager(private val activity: Activity) {
 
-
-    @RequiresApi(Build.VERSION_CODES.M)
     fun canDrawOverlays(): Boolean{
         return canDrawOverlays(activity)
     }
@@ -35,8 +34,25 @@ class PermissionManager(private val activity: Activity) {
         return isAccServicePermissionGranted(activity,accClassCanonicalName)
     }
 
+    fun isGranted(permission: String): Boolean{
+        return isGranted(activity,permission)
+    }
+
+
+
 
 companion object {
+
+    /**
+     * check if a permission is granted
+     */
+    fun isGranted(context: Context,permission: String): Boolean{
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context.checkSelfPermission(permission) == PERMISSION_GRANTED
+        }else{
+            true
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun requestDrawOverlays(activity: Activity, requestCode: Int){

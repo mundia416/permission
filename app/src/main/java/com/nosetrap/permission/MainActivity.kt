@@ -12,12 +12,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         RuntimePermission(this).onAccepted {
-            Log.d("sfs","fsf")
+            Log.d("sfs", "fsf")
         }.onDenied {
-            Log.d("sfs","fsf")
+            Log.d("sfs", "fsf")
         }.onForeverDenied {
-            Log.d("sfs","fsf")
-        }.ask {  }
+            Log.d("sfs", "fsf")
+        }.ask { }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("sfs", "fsf")
     }
 }
