@@ -107,10 +107,10 @@ companion object {
                 return false
             }
 
-    fun canDrawOverlays(activity: Activity): Boolean {
+    fun canDrawOverlays(context: Context): Boolean {
 
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Settings.canDrawOverlays(activity)
+            Settings.canDrawOverlays(context)
         } else {
             true
         }
