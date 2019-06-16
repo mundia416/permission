@@ -1,8 +1,8 @@
 package com.nosetrap.permission
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.github.florent37.runtimepermission.RuntimePermission
 
 class MainActivity : AppCompatActivity() {

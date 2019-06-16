@@ -7,8 +7,8 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.support.annotation.RequiresApi
 import android.text.TextUtils
+import androidx.annotation.RequiresApi
 
 
 /**
