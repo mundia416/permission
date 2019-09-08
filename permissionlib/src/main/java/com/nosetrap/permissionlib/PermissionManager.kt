@@ -9,6 +9,7 @@ import android.os.Build
 import android.provider.Settings
 import android.text.TextUtils
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 
 
 /**
@@ -25,6 +26,7 @@ class PermissionManager(private val activity: Activity) {
     fun requestDrawOverlays(requestCode: Int){
         requestDrawOverlays(activity,requestCode)
     }
+    
 
     fun requestAccServicePermission(requestCode: Int){
         requestAccServicePermission(activity, requestCode)
@@ -61,12 +63,27 @@ companion object {
                 requestCode)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun requestDrawOverlays(fragment: Fragment, requestCode: Int){
+        fragment.startActivityForResult( Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + fragment.activity?.packageName)),
+                requestCode)
+    }
+
     /**
      * request accessiblity service permission
      */
     fun requestAccServicePermission(activity: Activity,requestCode: Int){
         val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
         activity.startActivityForResult(intent, requestCode)
+    }
+
+    /**
+     * request accessiblity service permission
+     */
+    fun requestAccServicePermission(fragment: Fragment,requestCode: Int){
+        val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+        fragment.startActivityForResult(intent, requestCode)
 
     }
 
